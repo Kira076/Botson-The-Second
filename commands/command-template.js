@@ -7,7 +7,7 @@ module.exports = {
     guildOnly: true || false,
     cooldown: 1,
     // eslint-disable-next-line no-unused-vars
-    execute(message, args) {
+    execute(message, args, libs) {
         // ...
     },
 };

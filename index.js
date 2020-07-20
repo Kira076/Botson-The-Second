@@ -1,4 +1,5 @@
 const fs = require('fs');
+const axios = require('axios').default;
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const secrets = require('./.config/secrets.json');
@@ -8,6 +9,8 @@ const cooldowns = new Discord.Collection();
 
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+
+const libs = { axios: axios };
 
 for (const file of commandFiles) {
     if (file !== 'command-template') {
@@ -21,6 +24,11 @@ client.once('ready', () => {
 });
 
 client.on('message', message => {
+    /* if (message.author.id === '160217975285219328') {
+        message.delete();
+        console.log('Uhhh?');
+    }*/
+
     if (!message.content.startsWith(prefix) || message.author.bot) return;
 
     const args = message.content.slice(prefix.length).split(/ +/);
@@ -66,7 +74,7 @@ client.on('message', message => {
     setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
     try {
-        command.execute(message, args);
+        command.execute(message, args, libs);
     }
     catch (error) {
         console.error(error);
