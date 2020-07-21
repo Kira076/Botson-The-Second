@@ -1,4 +1,3 @@
-const altFacts = require('../utils/alternative-poke-facts.json');
 const _ = require('lodash');
 
 module.exports = {
@@ -12,11 +11,18 @@ module.exports = {
     // eslint-disable-next-line no-unused-vars
     execute(message, args, libs) {
         // ...
-        const keys = Object.keys(altFacts);
-        const chosenKey = _.sample(keys);
-        const chosenFact = altFacts[chosenKey];
+        const facts = libs.db.altFacts.find({}, function(err, docs) {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                return docs;
+            }
+        });
+        console.log(facts);
+        const chosenFact = _.sample(facts);
 
-        return message.channel.send(`${chosenKey}: ${chosenFact}`);
+        return message.channel.send(`${chosenFact.pokemon}: ${chosenFact.fact}`);
 
         // return message.channel.send(`${response.name.replace(response.name[0], response.name[0].toUpperCase())}: ${choice.flavor_text.replace(/\n/g, ' ')}`);
     },

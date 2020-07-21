@@ -6,11 +6,12 @@ const secrets = require('./.config/secrets.json');
 const config = require('./.config/config.json');
 const prefix = config.prefix;
 const cooldowns = new Discord.Collection();
+const { db } = require('./utils/db-helper');
 
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
-const libs = { axios: axios };
+const libs = { axios: axios, db: db };
 
 for (const file of commandFiles) {
     if (file !== 'command-template') {
