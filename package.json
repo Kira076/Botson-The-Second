@@ -11,6 +11,8 @@
   "dependencies": {
     "axios": "^0.19.2",
     "discord.js": "^12.2.0",
+    "nedb": "^1.8.0",
+    "pokedex-promise-v2": "^3.2.0",
     "sanitize": "^2.1.0"
   }
 }
