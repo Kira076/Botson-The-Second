@@ -11,18 +11,18 @@ module.exports = {
     // eslint-disable-next-line no-unused-vars
     execute(message, args, libs) {
         // ...
-        const facts = libs.db.altFacts.find({}, function(err, docs) {
+
+        libs.db.altFacts.find({}, function(err, docs) {
             if (err) {
                 console.log(err);
             }
             else {
-                return docs;
+                console.log(docs);
+                const chosenFact = _.sample(docs);
+
+                return message.channel.send(`${chosenFact.pokemon}: ${chosenFact.fact}`);
             }
         });
-        console.log(facts);
-        const chosenFact = _.sample(facts);
-
-        return message.channel.send(`${chosenFact.pokemon}: ${chosenFact.fact}`);
 
         // return message.channel.send(`${response.name.replace(response.name[0], response.name[0].toUpperCase())}: ${choice.flavor_text.replace(/\n/g, ' ')}`);
     },

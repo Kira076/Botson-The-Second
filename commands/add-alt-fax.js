@@ -14,12 +14,13 @@ module.exports = {
 
         const doc = { pokemon: pokeName, fact: fact };
 
-        libs.db.altFacts.insert(doc, function(err) {
+        libs.db.altFacts.insert(doc, function(err, newDoc) {
             if (err) {
                 console.log(err);
                 return message.channel.send('Failed to add fact. :(');
             }
             else {
+                console.log(newDoc);
                 return message.channel.send('Fact added successfully!');
             }
         });
