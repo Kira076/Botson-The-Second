@@ -24,6 +24,14 @@ client.once('ready', () => {
     console.log('Ready!');
 });
 
+client.on('guildCreate', (guild) => {
+    console.log(guild);
+});
+
+client.on('guildDelete', (guild) => {
+    console.log(guild);
+});
+
 client.on('message', message => {
     /* if (message.author.id === '160217975285219328') {
         message.delete();
