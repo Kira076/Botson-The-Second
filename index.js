@@ -40,7 +40,7 @@ client.on('guildCreate', (guild) => {
         finally {
             client.release();
         }
-    })().catch(err => loggers.guildLogger.error(err));
+    })().catch(err => loggers.genLogger.error(err));
 });
 
 client.on('guildDelete', (guild) => {
