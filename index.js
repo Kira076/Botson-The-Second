@@ -7,11 +7,14 @@ const config = require('./.config/config.json');
 const prefix = config.prefix;
 const cooldowns = new Discord.Collection();
 const { db } = require('./utils/db-helper');
+const { pool } = require('./utils/pg-helper');
+const loggers = require('./utils/loggers');
+
 
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
-const libs = { axios: axios, db: db };
+const libs = { axios, db, pool, loggers };
 
 for (const file of commandFiles) {
     if (file !== 'command-template') {
@@ -25,11 +28,11 @@ client.once('ready', () => {
 });
 
 client.on('guildCreate', (guild) => {
-    console.log(guild);
+    loggers.guildLogger.info(`Joined guild: ${guild}`);
 });
 
 client.on('guildDelete', (guild) => {
-    console.log(guild);
+    loggers.guildLogger.info(`Left guild: ${guild}`);
 });
 
 client.on('message', message => {
