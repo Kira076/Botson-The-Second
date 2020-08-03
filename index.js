@@ -29,6 +29,18 @@ client.once('ready', () => {
 
 client.on('guildCreate', (guild) => {
     loggers.guildLogger.info(`Joined guild: ${guild}`);
+    (async () => {
+        const dbClient = await pool.connect();
+        try {
+            const res = await dbClient
+                .query('CREATE TABLE $1_alt_pokefax ( _id serial PRIMARY KEY, pokemon varchar(32) NOT NULL, fact varchar(256) NOT NULL', [guild.id]);
+            loggers.guildLogger.info(`Created db table for ${guild.id}`);
+            loggers.guildLogger.info(`Database responded: ${res}`);
+        }
+        finally {
+            client.release();
+        }
+    })().catch(err => loggers.guildLogger.error(err));
 });
 
 client.on('guildDelete', (guild) => {
