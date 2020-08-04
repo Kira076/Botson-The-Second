@@ -44,10 +44,10 @@ module.exports = {
         }
         return res;
     }),
-    run: (async (text, values) => {
-        poolLogger.info(`Running DB command: ${text}`);
+    run: (async (stmt) => {
+        poolLogger.info(`Running DB command: ${stmt.text}`);
         try {
-            const res = await pool.query(text, values);
+            const res = await pool.query(stmt);
             poolLogger.info(`DB command completed. Response: ${res}`);
         }
         catch (err) {
