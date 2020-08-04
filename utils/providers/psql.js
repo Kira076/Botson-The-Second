@@ -15,7 +15,8 @@ class PSQLProvider extends SettingProvider {
         this.insertOrReplaceStmt = (async (vals) => {
             const stmt = {
                 name: 'insert-or-replace',
-                text: 'INSERT OR REPLACE INTO settings VALUES ($1, $2)',
+                // text: 'INSERT OR REPLACE INTO settings VALUES ($1, $2)',
+                text: 'INSERT INTO settings VALUES ($1, $2) ON CONFLICT (guild) DO UPDATE SET settings = $2 WHERE guild = $1',
                 values: vals,
             };
             try {
