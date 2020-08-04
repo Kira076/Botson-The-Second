@@ -47,7 +47,7 @@ class PSQLProvider extends SettingProvider {
         this.client = client;
 
         const stmt = {
-            text: 'CREATE TABLE IF NOT EXISTS settings (guild INTEGER PRIMARY KEY, settings TEXT)',
+            text: 'CREATE TABLE IF NOT EXISTS settings (guild BIGINT PRIMARY KEY, settings TEXT)',
             vals: [],
         };
         await this.db.run(stmt);
