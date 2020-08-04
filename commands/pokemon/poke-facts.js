@@ -31,8 +31,10 @@ module.exports = class PokeFactsCommand extends Command {
         (async () => {
             try {
                 const response = await P.getPokemonSpeciesByName(ind);
+                console.log(response);
                 const enEntries = response.flavor_text_entries.filter(entry => entry.language.name === 'en');
                 const choice = _.sample(enEntries);
+                console.log(choice);
                 return message.say(`${response.name.replace(response.name[0], response.name[0].toUpperCase())}: ${choice.flavor_text.replace(/\n/g, ' ')}`);
             }
             catch (err) {
