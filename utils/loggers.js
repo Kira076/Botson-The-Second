@@ -10,6 +10,10 @@ const guildDest = `./logs/${timestamp}guilds.log`;
 const poolDest = `./logs/${timestamp}pool.log`;
 
 fs.mkdir('./logs', opts, cb);
+fs.closeSync(fs.openSync(poolDest, 'w'));
+fs.closeSync(fs.openSync(poolDest, 'w'));
+fs.closeSync(fs.openSync(poolDest, 'w'));
+fs.closeSync(fs.openSync(poolDest, 'w'));
 
 const devLogger = pino({ level: 'debug' }, pino.destination(devDest));
 const genLogger = pino(pino.destination(genDest));
