@@ -29,7 +29,7 @@ module.exports = class PokeFactsCommand extends Command {
     run(message) {
         const ind = this.getRndInteger(1, 809);
         console.log('Got random number: ', ind);
-        (async () => {
+        async () => {
             try {
                 console.log('Sending request');
                 const response = await P.getPokemonSpeciesByName(ind);
@@ -43,7 +43,7 @@ module.exports = class PokeFactsCommand extends Command {
                 this.client.utils.loggers.genLogger.error(`Failed to retrieve from PokeAPI: ${err}`);
                 return message.say('Could not retrieve a pokedex entry');
             }
-        });
+        };
     }
 
     getRndInteger(min, max) {
