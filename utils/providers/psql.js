@@ -20,6 +20,7 @@ class PSQLProvider extends SettingProvider {
                 values: vals,
             };
             try {
+                console.log(vals);
                 await this.db.run(stmt);
             }
             catch (err) {
@@ -45,7 +46,11 @@ class PSQLProvider extends SettingProvider {
     async init(client) {
         this.client = client;
 
-        await this.db.run('CREATE TABLE IF NOT EXISTS settings (guild INTEGER PRIMARY KEY, settings TEXT)');
+        const stmt = {
+            text: 'CREATE TABLE IF NOT EXISTS settings (guild INTEGER PRIMARY KEY, settings TEXT)',
+            vals: [],
+        };
+        await this.db.run(stmt);
 
         const res = await this.db.query('SELECT CAST(guild as TEXT) as guild, settings FROM settings');
         const rows = res.rows;
@@ -115,7 +120,8 @@ class PSQLProvider extends SettingProvider {
         settings[key] = val;
         const val1 = guild !== 'global' ? guild : 0;
         const val2 = JSON.stringify(settings);
-        await this.insertOrReplaceStmt([val1, val2]);
+        const vals = [val1, val2];
+        await this.insertOrReplaceStmt(vals);
         if (guild === 'global') this.updateOtherShards(key, val);
         return val;
     }
@@ -130,7 +136,8 @@ class PSQLProvider extends SettingProvider {
         settings[key] = undefined;
         const val1 = guild !== 'global' ? guild : 0;
         const val2 = JSON.stringify(settings);
-        await this.insertOrReplaceStmt([val1, val2]);
+        const vals = [val1, val2];
+        await this.insertOrReplaceStmt(vals);
         if (guild === 'global') this.updateOtherShards(key, val);
         return val;
     }
