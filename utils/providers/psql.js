@@ -46,8 +46,8 @@ class PSQLProvider extends SettingProvider {
 
         await this.db.run('CREATE TABLE IF NOT EXISTS settings (guild INTEGER PRIMARY KEY, settings TEXT)');
 
-        const rows = await this.db.query('SELECT CAST(guild as TEXT) as guild, settings FROM settings');
-        console.log(rows);
+        const res = await this.db.query('SELECT CAST(guild as TEXT) as guild, settings FROM settings');
+        const rows = res.rows;
         for (const row of rows) {
             let settings;
             try {
