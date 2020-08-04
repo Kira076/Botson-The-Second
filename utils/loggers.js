@@ -1,7 +1,7 @@
 const pino = require('pino');
 const fs = require('fs');
 
-const timestamp = new Date().toISOString().replace(/:/g, '-');
+const timestamp = new Date().toISOString().replace(/:/g, '-').slice(0, 10);
 const opts = { recursive: true };
 
 const devDest = `./logs/${timestamp}dev.log`;
