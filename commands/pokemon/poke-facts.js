@@ -30,6 +30,7 @@ module.exports = class PokeFactsCommand extends Command {
         const ind = this.getRndInteger(1, 809);
         (async () => {
             try {
+                console.log('Senting request');
                 const response = await P.getPokemonSpeciesByName(ind);
                 console.log(response);
                 const enEntries = response.flavor_text_entries.filter(entry => entry.language.name === 'en');
