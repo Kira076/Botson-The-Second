@@ -9,6 +9,8 @@ const config = require(path.join(__dirname, '.config', 'config.json'));
 
 const client = new CommandoClient(config.clientOpts);
 
+Object.defineProperty(client, 'utils', { value: utils, writable: false });
+
 client.registry
     .registerDefaultTypes()
     .registerGroups([
