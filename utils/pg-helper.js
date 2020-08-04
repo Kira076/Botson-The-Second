@@ -12,6 +12,7 @@ pool.on('error', (err, client) => {
 
 module.exports = {
     pool: pool,
+    logger: poolLogger,
     query: (async (text, values) => {
         poolLogger.info(`Starting DB query: ${text}`);
         try {
@@ -42,5 +43,16 @@ module.exports = {
             client.release();
         }
         return res;
+    }),
+    run: (async (text, values) => {
+        poolLogger.info(`Running DB command: ${text}`);
+        try {
+            const res = await pool.query(text, values);
+            poolLogger.info(`DB command completed. Response: ${res}`);
+        }
+        catch (err) {
+            poolLogger.error(err);
+            throw err;
+        }
     }),
 };

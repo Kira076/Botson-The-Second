@@ -1,9 +1,15 @@
 const pino = require('pino');
+const fs = require('fs');
 
-const devDest = '../logs/dev.log';
-const genDest = '../logs/dev.log';
-const guildDest = '../logs/guilds.log';
-const poolDest = '../logs/pool.log';
+const timestamp = new Date().toISOString().replace(/:/g, '-');
+const opts = { recursive: true };
+
+const devDest = `./logs/${timestamp}dev.log`;
+const genDest = `./logs/${timestamp}gen.log`;
+const guildDest = `./logs/${timestamp}guilds.log`;
+const poolDest = `./logs/${timestamp}pool.log`;
+
+fs.mkdir('./logs', opts, cb);
 
 const devLogger = pino({ level: 'debug' }, pino.destination(devDest));
 const genLogger = pino(pino.destination(genDest));
@@ -16,3 +22,10 @@ module.exports = {
     guildLogger,
     poolLogger,
 };
+
+function cb(err) {
+    if (err) {
+        console.error(`Whoops! Failed to access or create logs directory! ${err}`);
+        throw err;
+    }
+}
