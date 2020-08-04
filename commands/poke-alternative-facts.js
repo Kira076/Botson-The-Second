@@ -9,20 +9,24 @@ module.exports = {
     guildOnly: true,
     cooldown: 1,
     // eslint-disable-next-line no-unused-vars
-    execute(message, args, libs) {
+    execute(message, args, utils) {
         // ...
+        const guild = message.guild.id;
+        const text = 'SELECT * FROM $1_alt_pokefax';
+        const values = [guild];
+        let rows;
 
-        libs.db.altFacts.find({}, function(err, docs) {
-            if (err) {
-                console.log(err);
-            }
-            else {
-                console.log(docs);
-                const chosenFact = _.sample(docs);
+        try {
+            rows = utils.pool.query(text, values);
+            utils.devLogger.debug(`Rows returned from alt-fax get: ${rows}`);
+        }
+        catch (err) {
+            utils.loggers.genLogger.error(err);
+            return message.channel.send('Failed to find a fact. :(');
+        }
+        const chosenFact = _.sample(rows);
 
-                return message.channel.send(`${chosenFact.pokemon}: ${chosenFact.fact}`);
-            }
-        });
+        return message.channel.send(`${chosenFact.Pokemon}: ${chosenFact.Fact}`);
 
         // return message.channel.send(`${response.name.replace(response.name[0], response.name[0].toUpperCase())}: ${choice.flavor_text.replace(/\n/g, ' ')}`);
     },

@@ -1,6 +1,7 @@
 const { Pool } = require('pg');
 const { poolLogger } = require('../utils/loggers');
-const pool = new Pool();
+const { pgConfig } = require('../.config/secrets.json');
+const pool = new Pool(pgConfig);
 
 // the pool will emit an error on behalf of any idle clients
 // it contains if a backend error or network partition happens
@@ -12,8 +13,34 @@ pool.on('error', (err, client) => {
 module.exports = {
     pool: pool,
     query: (async (text, values) => {
-        poolLogger.info('Starting DB query');
-        const res = await pool.query(text, values);
-        poolLogger.info(`DB query completed. Response: ${res}`);
-    })().catch(err => poolLogger.error(err)),
+        poolLogger.info(`Starting DB query: ${text}`);
+        try {
+            const res = await pool.query(text, values);
+            poolLogger.info(`DB query completed. Response: ${res}`);
+            return res;
+        }
+        catch (err) {
+            poolLogger.error(err);
+            throw err;
+        }
+    }),
+    transaction: (async (tx) => {
+        const client = await pool.connect();
+        let res;
+        try {
+            await client.query('BEGIN');
+            try {
+                res = await client.query(tx);
+                await client.query('COMMIT');
+            }
+            catch (err) {
+                await client.query('ROLLBACK');
+                throw err;
+            }
+        }
+        finally {
+            client.release();
+        }
+        return res;
+    }),
 };

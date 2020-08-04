@@ -7,7 +7,7 @@ module.exports = {
     guildOnly: true,
     cooldown: 1,
     // eslint-disable-next-line no-unused-vars
-    execute(message, args, libs) {
+    execute(message, args, utils) {
         // ...
         const pokeName = args[0];
         const fact = args.slice(1).join(' ');
@@ -17,19 +17,16 @@ module.exports = {
             return message.channel.send('I\'m sorry, Pokemon name must be 32 characters or less and the fact must be 256 characters or less.');
         }
 
-        const query = 'INSERT INTO $1_alt_pokefax (Pokemon, Fact) VALUES ($2, $3)';
+        const text = 'INSERT INTO $1_alt_pokefax (Pokemon, Fact) VALUES ($2, $3)';
         const values = [guild, pokeName, fact];
 
-        (async () => {
-            const dbClient = await libs.pool.connect();
-            try {
-                libs.loggers.guildLogger.info(`Attempting to add alt fax for guild ${guild}`);
-                const res = await dbClient.query(query, values);
-                libs.loggers.guildLogger.info(`Added alt pokefax for ${guild}, response: ${res}`);
-            }
-            finally {
-                dbClient.release();
-            }
-        })().catch(err => libs.loggers.genLogger.error(err));
+        try {
+            utils.pool.query(text, values);
+            return message.channel.send('Fact added.');
+        }
+        catch (err) {
+            utils.loggers.genLogger.error(err);
+            return message.channel.send('Failed to add fact. :(');
+        }
     },
 };

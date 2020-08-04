@@ -1,5 +1,5 @@
 const pool = require('./pg-helper');
-const storage = require('./db-helper');
+const storage = require('./storage-helper');
 const loggers = require('./loggers');
 const axios = require('axios').default;
 
