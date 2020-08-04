@@ -28,15 +28,11 @@ module.exports = class PokeFactsCommand extends Command {
     // eslint-disable-next-line no-unused-vars
     run(message) {
         const ind = this.getRndInteger(1, 809);
-        console.log('Got random number: ', ind);
         (async () => {
             try {
-                console.log('Sending request');
                 const response = await P.getPokemonSpeciesByName(ind);
-                console.log(response);
                 const enEntries = response.flavor_text_entries.filter(entry => entry.language.name === 'en');
                 const choice = _.sample(enEntries);
-                console.log(choice);
                 return message.say(`${response.name.replace(response.name[0], response.name[0].toUpperCase())}: ${choice.flavor_text.replace(/\n/g, ' ')}`);
             }
             catch (err) {
