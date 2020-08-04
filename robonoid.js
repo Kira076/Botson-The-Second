@@ -13,6 +13,7 @@ client.registry
     .registerDefaultTypes()
     .registerGroups([
         ['tests', 'Command group for testing new commands'],
+        ['pokemon', 'Commands related to pokemon'],
     ])
     .registerDefaultGroups()
     .registerDefaultCommands()

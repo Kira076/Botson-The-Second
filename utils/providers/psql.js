@@ -20,7 +20,6 @@ class PSQLProvider extends SettingProvider {
                 values: vals,
             };
             try {
-                console.log(vals);
                 await this.db.run(stmt);
             }
             catch (err) {
