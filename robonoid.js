@@ -1,5 +1,8 @@
 const { CommandoClient } = require('discord.js-commando');
 const path = require('path');
+const PSQLProvider = require('./utils/providers/psql');
+
+
 const utils = require(path.join(__dirname, 'utils', 'index.js'));
 const secrets = require(path.join(__dirname, '.config', 'secrets.json'));
 const config = require(path.join(__dirname, '.config', 'config.json'));
@@ -25,5 +28,7 @@ client.on('error', (error) => {
     console.log(error);
     utils.loggers.genLogger.error(`Whoops! ${error}`);
 });
+
+client.setProvider(new PSQLProvider(utils.db));
 
 client.login(secrets.token);

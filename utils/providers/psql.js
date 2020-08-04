@@ -19,7 +19,7 @@ class PSQLProvider extends SettingProvider {
                 values: vals,
             };
             try {
-                await this.db.query(stmt);
+                await this.db.run(stmt);
             }
             catch (err) {
                 this.db.logger.error(`Error in inster-or-replace statement with vals: ${vals}. Error: ${err}`);
@@ -33,7 +33,7 @@ class PSQLProvider extends SettingProvider {
                 values: [val],
             };
             try {
-                await this.db.query(stmt);
+                await this.db.run(stmt);
             }
             catch (err) {
                 this.db.logger.error(`Error in delete statement with vals: ${val}. Error: ${err}`);
