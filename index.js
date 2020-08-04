@@ -1,20 +1,16 @@
 const fs = require('fs');
-const axios = require('axios').default;
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const secrets = require('./.config/secrets.json');
 const config = require('./.config/config.json');
 const prefix = config.prefix;
 const cooldowns = new Discord.Collection();
-const { db } = require('./utils/db-helper');
-const { pool } = require('./utils/pg-helper');
-const loggers = require('./utils/loggers');
+const utils = require('./utils/index');
+const { loggers } = utils;
 
 
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-
-const libs = { axios, db, pool, loggers };
 
 for (const file of commandFiles) {
     if (file !== 'command-template') {
@@ -29,18 +25,6 @@ client.once('ready', () => {
 
 client.on('guildCreate', (guild) => {
     loggers.guildLogger.info(`Joined guild: ${guild}`);
-    (async () => {
-        const dbClient = await pool.connect();
-        try {
-            const res = await dbClient
-                .query('CREATE TABLE $1_alt_pokefax ( _id serial PRIMARY KEY, pokemon varchar(32) NOT NULL, fact varchar(256) NOT NULL', [guild.id]);
-            loggers.guildLogger.info(`Created db table for ${guild.id}`);
-            loggers.guildLogger.info(`Database responded: ${res}`);
-        }
-        finally {
-            client.release();
-        }
-    })().catch(err => loggers.genLogger.error(err));
 });
 
 client.on('guildDelete', (guild) => {
@@ -98,7 +82,7 @@ client.on('message', message => {
     setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
     try {
-        command.execute(message, args, libs);
+        command.execute(message, args, utils);
     }
     catch (error) {
         console.error(error);
