@@ -106,3 +106,5 @@ dist
 # Application specific settings
 .config/
 store/
+logs
+old

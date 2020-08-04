@@ -4,25 +4,29 @@ module.exports = {
     description: 'Add an alternative pokemon fact',
     args: true,
     usage: '<Capitalized pokemon name> <new fact>',
-    guildOnly: false,
+    guildOnly: true,
     cooldown: 1,
     // eslint-disable-next-line no-unused-vars
-    execute(message, args, libs) {
+    execute(message, args, utils) {
         // ...
         const pokeName = args[0];
         const fact = args.slice(1).join(' ');
+        const guild = message.guild.id;
 
-        const doc = { pokemon: pokeName, fact: fact };
+        if (pokeName.length > 32 || fact.length > 256) {
+            return message.channel.send('I\'m sorry, Pokemon name must be 32 characters or less and the fact must be 256 characters or less.');
+        }
 
-        libs.db.altFacts.insert(doc, function(err, newDoc) {
-            if (err) {
-                console.log(err);
-                return message.channel.send('Failed to add fact. :(');
-            }
-            else {
-                console.log(newDoc);
-                return message.channel.send('Fact added successfully!');
-            }
-        });
+        const text = 'INSERT INTO $1_alt_pokefax (Pokemon, Fact) VALUES ($2, $3)';
+        const values = [guild, pokeName, fact];
+
+        try {
+            utils.pool.query(text, values);
+            return message.channel.send('Fact added.');
+        }
+        catch (err) {
+            utils.loggers.genLogger.error(err);
+            return message.channel.send('Failed to add fact. :(');
+        }
     },
 };

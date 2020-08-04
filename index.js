@@ -1,17 +1,15 @@
 const fs = require('fs');
-const axios = require('axios').default;
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const secrets = require('./.config/secrets.json');
 const config = require('./.config/config.json');
 const prefix = config.prefix;
 const cooldowns = new Discord.Collection();
-const { db } = require('./utils/db-helper');
+const utils = require('./utils/index');
+const { loggers } = utils;
 
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-
-const libs = { axios: axios, db: db };
 
 for (const file of commandFiles) {
     if (file !== 'command-template') {
@@ -22,6 +20,14 @@ for (const file of commandFiles) {
 
 client.once('ready', () => {
     console.log('Ready!');
+});
+
+client.on('guildCreate', (guild) => {
+    loggers.guildLogger.info(`Joined guild: ${guild}`);
+});
+
+client.on('guildDelete', (guild) => {
+    loggers.guildLogger.info(`Left guild: ${guild}`);
 });
 
 client.on('message', message => {
@@ -75,7 +81,7 @@ client.on('message', message => {
     setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
     try {
-        command.execute(message, args, libs);
+        command.execute(message, args, utils);
     }
     catch (error) {
         console.error(error);

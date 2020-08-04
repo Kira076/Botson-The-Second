@@ -7,19 +7,21 @@ module.exports = {
     guildOnly: false,
     cooldown: 1,
     // eslint-disable-next-line no-unused-vars
-    execute(message, args, libs) {
+    execute(message, args, utils) {
         // ...
-
         if (message.author.id === '178880546221326336') {
-            libs.db.altFacts.remove({ _id: args[0] }, {}, function(err) {
-                if (err) {
-                    console.log(err);
-                    return message.channel.send('Failed to remove fact. :(');
-                }
-                else {
-                    return message.channel.send('Fact removed successfully.');
-                }
-            });
+            const guild = message.guild.id;
+            const id = args[0];
+            const text = 'DELETE FROM $1_alt_pokefax WHERE _id = $2';
+            const values = [guild, id];
+            try {
+                utils.pool.query(text, values);
+                return message.channel.send('Fact removed.');
+            }
+            catch (err) {
+                utils.loggers.genLogger.error(err);
+                return message.channel.send('Failed to remove fact. :(');
+            }
         }
     },
 };

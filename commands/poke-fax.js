@@ -17,27 +17,18 @@ module.exports = {
     guildOnly: false,
     cooldown: 1,
     // eslint-disable-next-line no-unused-vars
-    execute(message, args, libs) {
+    execute(message, args, utils) {
         const ind = getRndInteger(1, 809);
-
-        /* P.getPokemonSpeciesByName(ind)
-            .then(function(response) {
-                const enEntries = response.flavor_text_entries.filter(entry => entry.language.id === 9);
-                console.log(enEntries);
-                const choice = _.sample(enEntries);
-                return message.channel.send(choice.flavor_text);
-            })
-            .catch(function(error) {
-                console.log(error);
-            });*/
-        P.getPokemonSpeciesByName(ind, function(response, error) {
-            if(!error) {
+        (async () => {
+            try {
+                const response = await P.getPokemonSpeciesByName(ind);
                 const enEntries = response.flavor_text_entries.filter(entry => entry.language.name === 'en');
                 const choice = _.sample(enEntries);
                 return message.channel.send(`${response.name.replace(response.name[0], response.name[0].toUpperCase())}: ${choice.flavor_text.replace(/\n/g, ' ')}`);
             }
-            else {
-                console.log(error);
+            catch (err) {
+                utils.loggers.genLogger.error(`Failed to retrieve from PokeAPI: ${err}`);
+                return message.channel.send('Could not retrieve a pokedex entry');
             }
         });
     },
