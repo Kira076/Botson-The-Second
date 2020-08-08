@@ -27,21 +27,19 @@ module.exports = class PokeAltFacts extends Command {
         (async () => {
             try {
                 factsObj = await handler.get(guild, 'poke-alt-facts');
+                if(typeof factsObj !== 'undefined' && Object.keys(factsObj) > 0) {
+                    const chosenPokemon = _.sample(factsObj);
+                    const chosenFact = _.sample(chosenPokemon);
+
+                    return message.say(`${chosenPokemon}: ${chosenFact}`);
+                }
+                else {
+                    return message.say('Sorry boss, all outta facts');
+                }
             }
             catch (err) {
                 this.client.utils.loggers.genLogger.error(`Unable to get the facts for this server: ${err}`);
             }
         })();
-        console.log(factsObj);
-
-        if(typeof factsObj !== 'undefined' && Object.keys(factsObj) > 0) {
-            const chosenPokemon = _.sample(factsObj);
-            const chosenFact = _.sample(chosenPokemon);
-
-            return message.say(`${chosenPokemon}: ${chosenFact}`);
-        }
-        else {
-            return message.say('Sorry boss, all outta facts');
-        }
     }
 };
