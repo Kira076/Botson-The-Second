@@ -1,7 +1,7 @@
 const PSQLHandler = require('./db-helpers/psql-handler');
 const db = require('./pg-helper');
 const dbHandler = new PSQLHandler(db);
-// const _ = require('lodash');
+const _ = require('lodash');
 
 const stmt1 = {
     text: 'CREATE TABLE IF NOT EXISTS poke_alt_facts (guild BIGINT PRIMARY KEY, facts TEXT)',
@@ -50,11 +50,14 @@ const alt_fax_funcs = {
         const { pokemon, fact } = val;
         const factsObject = await alt_fax_funcs.getter(guild);
 
-        if(factsObject !== 'Failed to find a fact. :(') {
+        if(typeof factsObject !== 'undefined' && _.indexOf(Object.keys(factsObject), pokemon) > 0) {
             factsObject[pokemon].push(fact);
         }
         else {
-            Object.assign({ pokemon: [fact] }, factsObject);
+            const factsList = [
+                fact,
+            ];
+            Object.assign({ [pokemon]: factsList }, factsObject);
         }
 
         const stmt = {
