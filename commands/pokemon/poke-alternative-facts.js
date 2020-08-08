@@ -23,7 +23,7 @@ module.exports = class PokeAltFacts extends Command {
         const guild = message.guild.id;
 
         const factsObj = this.client.dbHandler.get(guild, 'poke-alt-facts');
-        if(typeof factsObj !== 'undefined') {
+        if(typeof factsObj !== 'undefined' && Object.keys(factsObj) > 0) {
             const chosenPokemon = _.sample(factsObj);
             const chosenFact = _.sample(chosenPokemon);
 

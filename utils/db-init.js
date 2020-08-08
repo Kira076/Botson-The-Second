@@ -48,7 +48,7 @@ const alt_fax_funcs = {
  */
     async setter(guild, val) {
         const { pokemon, fact } = val;
-        const factsObject = await alt_fax_funcs.getAltFacts(guild);
+        const factsObject = await alt_fax_funcs.getter(guild);
 
         if(pokemon in factsObject) {
             factsObject[pokemon].push(fact);
