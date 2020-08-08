@@ -21,7 +21,8 @@ module.exports = class PokeAltFacts extends Command {
     // eslint-disable-next-line no-unused-vars
     run(message, { text, option }) {
         const guild = message.guild.id;
-        let factsObj;
+        // eslint-disable-next-line no-var
+        var factsObj;
 
         (async () => {
             try {
