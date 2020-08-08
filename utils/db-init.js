@@ -29,11 +29,11 @@ const alt_fax_funcs = {
             // db.devLogger.debug(`Res returned from alt-fax get: ${res}`);
             console.log(JSON.stringify(res.rows));
             console.log(JSON.stringify(res.rows[0]));
-            facts = JSON.parse(res.rows[0]);
+            facts = JSON.parse(res.rows[0]['facts']);
         }
         catch (err) {
             db.logger.error(`Failed to find an alt facts object for guild: ${guild} with error: ${err}`);
-            return 'Failed to find a fact. :(';
+            return {};
         }
         // Originally designed to select a random fact. Now intended to return the whole of the alt facts object for the guild.
         // const chosenPokemon = _.sample(facts);
