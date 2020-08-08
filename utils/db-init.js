@@ -48,16 +48,24 @@ const alt_fax_funcs = {
  */
     async setter(guild, val) {
         const { pokemon, fact } = val;
-        const factsObject = await alt_fax_funcs.getter(guild);
+        let factsObject = await alt_fax_funcs.getter(guild);
+        console.log(`Initial object get: ${factsObject}`);
 
         if(typeof factsObject !== 'undefined' && _.indexOf(Object.keys(factsObject), pokemon) > 0) {
+            console.log('This code shouldn\'t appear.');
             factsObject[pokemon].push(fact);
         }
         else {
             const factsList = [
                 fact,
             ];
-            Object.assign({ [pokemon]: factsList }, factsObject);
+            console.log(`Facts list is now: ${factsList}`);
+            factsObject = {
+                [pokemon]: [
+                    fact,
+                ],
+            };
+            console.log(`Facts object is now: ${factsObject}`);
         }
 
         const stmt = {
