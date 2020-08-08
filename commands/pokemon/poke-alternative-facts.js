@@ -24,6 +24,7 @@ module.exports = class PokeAltFacts extends Command {
         let factsObj;
 
         (async () => {
+            console.log('This code should execute.');
             factsObj = await this.client.dbHandler.get(guild, 'poke-alt-facts');
         })();
         console.log(factsObj);
