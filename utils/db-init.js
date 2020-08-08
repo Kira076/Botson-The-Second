@@ -27,6 +27,7 @@ const alt_fax_funcs = {
         try {
             const res = await db.query(stmt);
             // db.devLogger.debug(`Res returned from alt-fax get: ${res}`);
+            console.log(JSON.stringify(res));
             facts = JSON.parse(res);
         }
         catch (err) {
