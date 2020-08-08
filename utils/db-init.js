@@ -30,7 +30,7 @@ const alt_fax_funcs = {
             facts = JSON.parse(res);
         }
         catch (err) {
-            db.logger.error(`Failed to find an alt facts object for guild: ${guild}`);
+            db.logger.error(`Failed to find an alt facts object for guild: ${guild} with error: ${err}`);
             return 'Failed to find a fact. :(';
         }
         // Originally designed to select a random fact. Now intended to return the whole of the alt facts object for the guild.
@@ -48,25 +48,17 @@ const alt_fax_funcs = {
  */
     async setter(guild, val) {
         const { pokemon, fact } = val;
-        console.log(`Argument variables: pokemon = ${pokemon}, fact = ${fact}`);
         let factsObject = await alt_fax_funcs.getter(guild);
-        console.log(`Initial object get: ${factsObject}`);
 
         if(typeof factsObject !== 'undefined' && _.indexOf(Object.keys(factsObject), pokemon) > 0) {
-            console.log('This code shouldn\'t appear.');
             factsObject[pokemon].push(fact);
         }
         else {
-            const factsList = [
-                fact,
-            ];
-            console.log(`Facts list is now: ${factsList}`);
             factsObject = {
                 [pokemon]: [
                     fact,
                 ],
             };
-            console.log(`Facts object is now: ${factsObject['Luvdisc']}`);
         }
 
         JSON.stringify(factsObject);
