@@ -1,6 +1,6 @@
 const { CommandoClient } = require('discord.js-commando');
 const path = require('path');
-const PSQLProvider = require('./utils/providers/psql');
+const PSQLProvider = require('./utils/db-helpers/psql-provider');
 
 
 const utils = require(path.join(__dirname, 'utils', 'index.js'));
@@ -10,6 +10,7 @@ const config = require(path.join(__dirname, '.config', 'config.json'));
 const client = new CommandoClient(config.clientOpts);
 
 Object.defineProperty(client, 'utils', { value: utils, writable: false });
+Object.defineProperty(client, 'dbHandler', { value: utils.dbHandler, writeable: false });
 
 client.registry
     .registerDefaultTypes()

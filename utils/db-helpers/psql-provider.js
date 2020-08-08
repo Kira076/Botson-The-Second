@@ -45,11 +45,25 @@ class PSQLProvider extends SettingProvider {
     async init(client) {
         this.client = client;
 
-        const stmt = {
+        /*
+         * Create statements for all table creation then run them as a bulk transaction through the DB handler.
+         */
+
+        const stmt1 = {
             text: 'CREATE TABLE IF NOT EXISTS settings (guild BIGINT PRIMARY KEY, settings TEXT)',
             vals: [],
         };
-        await this.db.run(stmt);
+
+        await this.db.run(stmt1);
+        /*
+        const stmt2 = {
+            text: 'CREATE TABLE IF NOT EXISTS poke_alt_facts (guild BIGINT PRIMARY KEY, facts TEXT)',
+            vals: [],
+        };
+
+        const list = [stmt1, stmt2];
+        this.db.blkRun(list);
+        */
 
         const res = await this.db.query('SELECT CAST(guild as TEXT) as guild, settings FROM settings');
         const rows = res.rows;

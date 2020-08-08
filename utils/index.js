@@ -1,4 +1,4 @@
-const db = require('./pg-helper');
+const { db, dbHandler } = require('./db-init');
 const storage = require('./storage-helper');
 const loggers = require('./loggers');
 const axios = require('axios').default;
@@ -8,4 +8,5 @@ module.exports = {
     storage,
     loggers,
     axios,
+    dbHandler,
 };
