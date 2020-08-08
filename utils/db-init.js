@@ -8,13 +8,13 @@ const stmt1 = {
     vals: [],
 };
 
-const funcs = {
+const alt_fax_funcs = {
 /**
  * Getter for poke-alt-facts.
  * @param {Guild|string} guild - The guild to get alt facts for.
  * @returns {object} - An object containing all of the poke-alt-facts for the given guild.
  */
-    async  getAltFacts(guild) {
+    async  getter(guild) {
         const stmt = {
             text: 'SELECT facts FROM poke_alt_facts WHERE guild = $1',
             values: [guild],
@@ -46,8 +46,8 @@ const funcs = {
  * @param {string} fact - A string representing the fact to add.
  * @returns {object|boolean} - Returns either the db response or false if it failed to add.
  */
-    async setAltFacts(guild, pokemon, fact) {
-        const factsObject = await funcs.getAltFacts(guild);
+    async setter(guild, pokemon, fact) {
+        const factsObject = await alt_fax_funcs.getAltFacts(guild);
 
         if(pokemon in factsObject) {
             factsObject[pokemon].push(fact);
@@ -71,7 +71,7 @@ const funcs = {
     },
 };
 
-dbHandler.registerTable('poke-alt-facts', stmt1, funcs);
+dbHandler.registerTable('poke-alt-facts', stmt1, alt_fax_funcs);
 
 module.exports = {
     db,
