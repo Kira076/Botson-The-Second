@@ -1,6 +1,6 @@
 const { Command } = require('discord.js-commando');
 
-module.exports = class MeowCommand extends Command {
+module.exports = class AddAltPokeFactCommand extends Command {
     constructor(client) {
         super(client, {
             name: 'add-alt-fax',
@@ -34,7 +34,7 @@ module.exports = class MeowCommand extends Command {
     run(message, { pokemon, fact }) {
         const guild = message.guild.id;
 
-        const result = this.client.dbHandler.set(guild, pokemon, fact);
+        const result = this.client.dbHandler.set(guild, 'poke-alt-facts', { pokemon, fact });
 
         if(!result) return message.say('Failed to add the fact!');
         else return message.say('Fact added!');

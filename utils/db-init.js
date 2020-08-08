@@ -14,7 +14,7 @@ const alt_fax_funcs = {
  * @param {Guild|string} guild - The guild to get alt facts for.
  * @returns {object} - An object containing all of the poke-alt-facts for the given guild.
  */
-    async  getter(guild) {
+    async getter(guild) {
         const stmt = {
             text: 'SELECT facts FROM poke_alt_facts WHERE guild = $1',
             values: [guild],
@@ -46,7 +46,8 @@ const alt_fax_funcs = {
  * @param {string} fact - A string representing the fact to add.
  * @returns {object|boolean} - Returns either the db response or false if it failed to add.
  */
-    async setter(guild, pokemon, fact) {
+    async setter(guild, val) {
+        const { pokemon, fact } = val;
         const factsObject = await alt_fax_funcs.getAltFacts(guild);
 
         if(pokemon in factsObject) {
