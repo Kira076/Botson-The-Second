@@ -27,8 +27,9 @@ const alt_fax_funcs = {
         try {
             const res = await db.query(stmt);
             // db.devLogger.debug(`Res returned from alt-fax get: ${res}`);
-            console.log(JSON.stringify(res));
-            facts = JSON.parse(res);
+            console.log(JSON.stringify(res.rows));
+            console.log(JSON.stringify(res.rows[0]));
+            facts = JSON.parse(res.rows[0]);
         }
         catch (err) {
             db.logger.error(`Failed to find an alt facts object for guild: ${guild} with error: ${err}`);
