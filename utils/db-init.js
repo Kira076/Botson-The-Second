@@ -40,6 +40,7 @@ const alt_fax_funcs = {
         // const chosenPokemon = _.sample(facts);
         // const chosenFact = _.sample(chosenPokemon);
 
+        console.log(`Returning: ${facts}/${JSON.stringify(facts)}`);
         return facts;
     },
     /**
