@@ -32,6 +32,8 @@ module.exports = class AddAltPokeFactCommand extends Command {
     }
 
     run(message, { pokemon, fact }) {
+        console.log(pokemon);
+        console.log(fact);
         const guild = message.guild.id;
 
         const result = this.client.dbHandler.set(guild, 'poke-alt-facts', { pokemon, fact });
