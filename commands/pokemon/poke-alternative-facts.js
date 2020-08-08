@@ -21,9 +21,16 @@ module.exports = class PokeAltFacts extends Command {
     // eslint-disable-next-line no-unused-vars
     run(message, { text, option }) {
         const guild = message.guild.id;
-        // let factsObj;
- 
-        const factsObj = this.client.dbHandler.get(guild, 'poke-alt-facts');
+        let factsObj;
+
+        (async () => {
+            try {
+                factsObj = await this.client.dbHandler.get(guild, 'poke-alt-facts');
+            }
+            catch (err) {
+                this.client.utils.loggers.genLogger.error(`Unable to get the facts for this server: ${err}`);
+            }
+        })();
         console.log(factsObj);
 
         if(typeof factsObj !== 'undefined' && Object.keys(factsObj) > 0) {
