@@ -1,7 +1,7 @@
 const PSQLHandler = require('./db-helpers/psql-handler');
 const db = require('./pg-helper');
 const dbHandler = new PSQLHandler(db);
-const _ = require('lodash');
+// const _ = require('lodash');
 
 const stmt1 = {
     text: 'CREATE TABLE IF NOT EXISTS poke_alt_facts (guild BIGINT PRIMARY KEY, facts TEXT)',
@@ -27,10 +27,8 @@ const alt_fax_funcs = {
         try {
             const res = await db.query(stmt);
             // db.devLogger.debug(`Res returned from alt-fax get: ${res}`);
-            console.log(JSON.stringify(res.rows[0]));
             const row = res.rows[0];
             facts = JSON.parse(row.facts);
-            console.log(JSON.stringify(facts));
         }
         catch (err) {
             db.logger.error(`Failed to find an alt facts object for guild: ${guild} with error: ${err}`);
@@ -46,37 +44,33 @@ const alt_fax_funcs = {
     /**
  * Setter for poke-alt-facts. Enables the setting of guild-specific alt facts.
  * @param {Guild|string} guild - The guild to add the fact to.
- * @param {string} pokemon - The name of the pokemon for the fact to be added to.
- * @param {string} fact - A string representing the fact to add.
+ * @param {object} val - An object for the entry, with a pokemon key and a fact key.
  * @returns {object|boolean} - Returns either the db response or false if it failed to add.
  */
     async setter(guild, val) {
-        const { pokemon, fact } = val;
-        let factsObject = await alt_fax_funcs.getter(guild);
+        let factsList = await alt_fax_funcs.getter(guild);
 
-        if(typeof factsObject !== 'undefined' && _.indexOf(Object.keys(factsObject), pokemon) > 0) {
-            factsObject[pokemon].push(fact);
+        if(typeof factsList !== 'undefined' && factsList > 0) {
+            factsList.push(val);
         }
         else {
-            factsObject = {
-                [pokemon]: [
-                    fact,
-                ],
-            };
+            factsList = [
+                val,
+            ];
         }
 
-        JSON.stringify(factsObject);
+        JSON.stringify(factsList);
 
         const stmt = {
             text: 'INSERT INTO poke_alt_facts VALUES ($1, $2)',
-            values: [guild, factsObject],
+            values: [guild, factsList],
         };
 
         try {
             return await db.run(stmt);
         }
         catch (err) {
-            db.logger.error(`Failed to set alternative poke fact for ${pokemon}: ${fact}, with error: ${err}`);
+            db.logger.error(`Failed to set alternative poke fact for ${val.pokemon}: ${val.fact}, with error: ${err}`);
             return false;
         }
     },

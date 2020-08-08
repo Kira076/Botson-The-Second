@@ -32,11 +32,13 @@ module.exports = class AddAltPokeFactCommand extends Command {
     }
 
     run(message, { pokemon, fact }) {
-        console.log(pokemon);
-        console.log(fact);
         const guild = message.guild.id;
+        const entry = {
+            pokemon: pokemon,
+            fact: fact,
+        };
 
-        const result = this.client.dbHandler.set(guild, 'poke-alt-facts', { pokemon, fact });
+        const result = this.client.dbHandler.set(guild, 'poke-alt-facts', entry);
 
         if(!result) return message.say('Failed to add the fact!');
         else return message.say('Fact added!');
