@@ -69,6 +69,8 @@ const alt_fax_funcs = {
             console.log(`Facts object is now: ${factsObject['Luvdisc']}`);
         }
 
+        JSON.stringify(factsObject);
+
         const stmt = {
             text: 'INSERT INTO poke_alt_facts VALUES ($1, $2)',
             values: [guild, factsObject],
