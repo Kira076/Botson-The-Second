@@ -39,8 +39,6 @@ const alt_fax_funcs = {
         // Originally designed to select a random fact. Now intended to return the whole of the alt facts object for the guild.
         // const chosenPokemon = _.sample(facts);
         // const chosenFact = _.sample(chosenPokemon);
-
-        console.log(`Returning: ${facts}/${JSON.stringify(facts)}`);
         return facts;
     },
     /**
@@ -61,7 +59,7 @@ const alt_fax_funcs = {
             ];
         }
 
-        JSON.stringify(factsList);
+        // JSON.stringify(factsList);
 
         const stmt = {
             text: 'INSERT INTO poke_alt_facts VALUES ($1, $2)',
