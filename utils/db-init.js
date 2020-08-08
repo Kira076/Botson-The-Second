@@ -28,6 +28,8 @@ const alt_fax_funcs = {
             const res = await db.query(stmt);
             // db.devLogger.debug(`Res returned from alt-fax get: ${res}`);
             const row = res.rows[0];
+            console.log('Raw', row);
+            console.log('Unraw', JSON.stringify(row));
             facts = JSON.parse(row.facts);
         }
         catch (err) {
