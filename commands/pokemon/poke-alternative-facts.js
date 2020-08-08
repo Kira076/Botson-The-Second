@@ -21,12 +21,12 @@ module.exports = class PokeAltFacts extends Command {
     // eslint-disable-next-line no-unused-vars
     run(message, { text, option }) {
         const guild = message.guild.id;
-        // eslint-disable-next-line no-var
-        var factsObj;
+        const handler = this.client.dbHandler;
+        let factsObj;
 
         (async () => {
             try {
-                factsObj = await this.client.dbHandler.get(guild, 'poke-alt-facts');
+                factsObj = await handler.get(guild, 'poke-alt-facts');
             }
             catch (err) {
                 this.client.utils.loggers.genLogger.error(`Unable to get the facts for this server: ${err}`);
