@@ -48,6 +48,7 @@ const alt_fax_funcs = {
  */
     async setter(guild, val) {
         const { pokemon, fact } = val;
+        console.log(`Argument variables: pokemon = ${pokemon}, fact = ${fact}`);
         let factsObject = await alt_fax_funcs.getter(guild);
         console.log(`Initial object get: ${factsObject}`);
 
@@ -65,7 +66,7 @@ const alt_fax_funcs = {
                     fact,
                 ],
             };
-            console.log(`Facts object is now: ${factsObject}`);
+            console.log(`Facts object is now: ${factsObject['Luvdisc']}`);
         }
 
         const stmt = {
