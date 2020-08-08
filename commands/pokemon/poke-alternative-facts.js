@@ -21,13 +21,9 @@ module.exports = class PokeAltFacts extends Command {
     // eslint-disable-next-line no-unused-vars
     run(message, { text, option }) {
         const guild = message.guild.id;
-        let factsObj;
-
-        (async () => {
-            console.log('This code should execute.');
-            factsObj = await this.client.dbHandler.get(guild, 'poke-alt-facts');
-            console.log('Inside async: ', JSON.stringify(factsObj));
-        })();
+        // let factsObj;
+ 
+        const factsObj = this.client.dbHandler.get(guild, 'poke-alt-facts');
         console.log(factsObj);
 
         if(typeof factsObj !== 'undefined' && Object.keys(factsObj) > 0) {
