@@ -28,7 +28,7 @@ module.exports = class PokeAltFacts extends Command {
             try {
                 factsObj = await handler.get(guild, 'poke-alt-facts');
                 console.log(`Seeing factsObj as: ${JSON.stringify(factsObj)}`);
-                if(typeof factsObj !== 'undefined' && Object.keys(factsObj) > 0) {
+                if(typeof factsObj !== 'undefined') {
                     const chosenPokemon = _.sample(factsObj);
                     const chosenFact = _.sample(chosenPokemon);
 
