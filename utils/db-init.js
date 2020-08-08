@@ -50,7 +50,7 @@ const alt_fax_funcs = {
         const { pokemon, fact } = val;
         const factsObject = await alt_fax_funcs.getter(guild);
 
-        if(pokemon in factsObject) {
+        if(factsObject !== 'Failed to find a fact. :(') {
             factsObject[pokemon].push(fact);
         }
         else {
