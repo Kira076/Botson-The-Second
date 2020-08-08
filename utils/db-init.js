@@ -1,4 +1,4 @@
-const { PSQLHandler } = require('./db-helpers/psql-handler');
+const PSQLHandler = require('./db-helpers/psql-handler');
 const db = require('./pg-helper');
 const dbHandler = new PSQLHandler(db);
 // const _ = require('lodash');
