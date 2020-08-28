@@ -30,8 +30,7 @@ const alt_fax_funcs = {
             const row = res.rows[0];
             console.log('Raw', row);
             console.log('Unraw', JSON.stringify(row));
-            facts = JSON.parse(row.facts);
-            console.log('Parsed: ', facts);
+            facts = row.facts;
         }
         catch (err) {
             db.logger.error(`Failed to find an alt facts object for guild: ${guild} with error: ${err}`);
