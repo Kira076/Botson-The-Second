@@ -39,7 +39,7 @@ module.exports = class MeowCommand extends Command {
         let transform;
         for (const file of transformationFiles) {
             if (file === `${transformation}.json`) {
-                transform = require(`../transformations/${file}`);
+                transform = require(`../../transformations/${file}`);
             }
         }
 
