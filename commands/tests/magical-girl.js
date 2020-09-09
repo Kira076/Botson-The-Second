@@ -21,6 +21,7 @@ module.exports = class MeowCommand extends Command {
                         transformationFiles.forEach(file => {
                             validArgs.push(file.slice(0, -5));
                         });
+                        console.log(validArgs);
                         return validArgs.includes(toString(text));
                     },
                 },
