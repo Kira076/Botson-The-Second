@@ -63,10 +63,13 @@ module.exports = class MeowCommand extends Command {
                 menuList.push(channel.replace('-', '. '));
             }
             const menuStr = `\`\`\`markdown\n# Channel Directory\n## ${menuList[0]}\n${menuList[1]} - General Chat\n${menuList[2]} - Meme chat\n${menuList[3]} - Youtube videos\n${menuList[4]} - Out of context quotes\n\n## ${menuList[5]}\n{${menuList[6]}} - Music sharing\n${menuList[7]} - Cooking\n\n## ${menuList[8]}\n7. ${menuList[9]} - TTRPGs\n${menuList[10]} - Post your waifus and best girls!\n${menuList[11]} - Sandbox and adventure multiplayer games\n${menuList[12]} - Shows/Fandoms and RWBY (always use spoiler tags)\n${menuList[13]} - Pokecord channel\n${menuList[14]} - Super Smash Bros chatter\n\n## ${menuList[15]}\n${menuList[16]} - NSFW memes\n${menuList[17]} - 2D NSFW/Lewd\n${menuList[18]} - 3D NSFW/Lewd\n\`\`\``;
-            message.channel.guild.channels.cache.get('626890547532922900').fetch()
+            console.log('Starting the fetch');
+            // message.channel.guild.channels.cache.get('626890547532922900').fetch()
+            message.channel.guild.channels.cache.get('626890547532922900')
                 .then(channel => {
                 // Change this to delete and uncomment the following send command if a new message needs to be sent
                 // Such as in order to have a bot message to edit on further transformations, or if sending a new message each time is better
+                    console.log('fetch completed');
                     channel.messages.cache.first().edit(menuStr);
                 // channel.send(menuStr);
                 })
