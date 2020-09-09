@@ -23,7 +23,7 @@ module.exports = class MeowCommand extends Command {
                     validate: (transformation) => {
                         console.log(transformation);
                         console.log(validArgs.includes('nine'));
-                        validArgs.includes(toString(transformation));
+                        validArgs.includes(transformation);
                     },
                 },
             ],
