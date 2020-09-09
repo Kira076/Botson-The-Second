@@ -59,8 +59,9 @@ module.exports = class MeowCommand extends Command {
                 clnt.utils.loggers.genLogger.error(`Unable to rename some or all channels: ${err}`);
             }
             const menuList = [];
-            for (const channel in channelList) {
-                menuList.push(channel.replace('-', '. '));
+            console.log(channelList);
+            for (const chan in channelList) {
+                menuList.push(chan.replace('-', '. '));
             }
             const menuStr = `\`\`\`markdown\n# Channel Directory\n## ${menuList[0]}\n${menuList[1]} - General Chat\n${menuList[2]} - Meme chat\n${menuList[3]} - Youtube videos\n${menuList[4]} - Out of context quotes\n\n## ${menuList[5]}\n{${menuList[6]}} - Music sharing\n${menuList[7]} - Cooking\n\n## ${menuList[8]}\n7. ${menuList[9]} - TTRPGs\n${menuList[10]} - Post your waifus and best girls!\n${menuList[11]} - Sandbox and adventure multiplayer games\n${menuList[12]} - Shows/Fandoms and RWBY (always use spoiler tags)\n${menuList[13]} - Pokecord channel\n${menuList[14]} - Super Smash Bros chatter\n\n## ${menuList[15]}\n${menuList[16]} - NSFW memes\n${menuList[17]} - 2D NSFW/Lewd\n${menuList[18]} - 3D NSFW/Lewd\n\`\`\``;
             console.log('Starting the fetch');
