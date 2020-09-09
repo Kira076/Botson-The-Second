@@ -36,6 +36,7 @@ module.exports = class MeowCommand extends Command {
 
     // eslint-disable-next-line no-unused-vars
     run(message, { transformation }) {
+        const clnt = this.client;
         let transform;
         for (const file of transformationFiles) {
             if (file === `${transformation}.json`) {
@@ -53,20 +54,21 @@ module.exports = class MeowCommand extends Command {
                 }
             }
             catch (err) {
-                this.client.utils.loggers.genLogger.error(`Unable to rename some or all channels: ${err}`);
+                console.log(err);
+                clnt.utils.loggers.genLogger.error(`Unable to rename some or all channels: ${err}`);
             }
             const menuList = [];
             for (const channel in channelList) {
                 menuList.push(channel.replace('-', '. '));
             }
             const menuStr = `\`\`\`markdown\n# Channel Directory\n## ${menuList[0]}\n${menuList[1]} - General Chat\n${menuList[2]} - Meme chat\n${menuList[3]} - Youtube videos\n${menuList[4]} - Out of context quotes\n\n## ${menuList[5]}\n{${menuList[6]}} - Music sharing\n${menuList[7]} - Cooking\n\n## ${menuList[8]}\n7. ${menuList[9]} - TTRPGs\n${menuList[10]} - Post your waifus and best girls!\n${menuList[11]} - Sandbox and adventure multiplayer games\n${menuList[12]} - Shows/Fandoms and RWBY (always use spoiler tags)\n${menuList[13]} - Pokecord channel\n${menuList[14]} - Super Smash Bros chatter\n\n## ${menuList[15]}\n${menuList[16]} - NSFW memes\n${menuList[17]} - 2D NSFW/Lewd\n${menuList[18]} - 3D NSFW/Lewd\n\`\`\``;
-
             try {
                 const menuChannel = await message.channel.guild.channels.cache.get('626890547532922900').fetch();
                 await menuChannel.messages.cache.first().edit(menuStr);
             }
             catch (err) {
-                this.client.utils.loggers.genLogger.error(`Unable to update menu channel: ${err}`);
+                console.log(err);
+                clnt.utils.loggers.genLogger.error(`Unable to update menu channel: ${err}`);
             }
             finally {
                 message.say('Moon... Prism... POWER!');
