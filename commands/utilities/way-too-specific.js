@@ -25,7 +25,7 @@ module.exports = class MeowCommand extends Command {
     // eslint-disable-next-line no-unused-vars
     run(message) {
         const channel = message.channel.guild.channels.cache.get('626890547532922900');
-        const messages = channel.messages.cache.first();
+        const messages = channel.messages.cache.array();
         console.log(messages);
         return message.say('Face now the true meaning of insanity.');
     }
