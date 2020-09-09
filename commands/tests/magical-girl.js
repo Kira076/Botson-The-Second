@@ -70,7 +70,7 @@ module.exports = class MeowCommand extends Command {
                 // Change this to delete and uncomment the following send command if a new message needs to be sent
                 // Such as in order to have a bot message to edit on further transformations, or if sending a new message each time is better
                     console.log('fetch completed');
-                    channel.messages.cache.first().edit(menuStr);
+                    // channel.messages.cache.first().edit(menuStr);
                 // channel.send(menuStr);
                 })
                 .catch(console.error);
