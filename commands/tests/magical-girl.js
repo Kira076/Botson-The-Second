@@ -1,8 +1,9 @@
 const { Command } = require('discord.js-commando');
 const fs = require('fs');
 const transformationFiles = fs.readdirSync('./transformations').filter(file => file.endsWith('.json'));
+const validArgs = [];
 // eslint-disable-next-line semi
-const validTransforms = transformationFiles.splice(transformationFiles.indexOf('test.json')).forEach(file => {validTransforms.push(file.slice[0, -5])});
+const validTransforms = transformationFiles.splice(transformationFiles.indexOf('test.json')).forEach(file => {validArgs.push(file.slice[0, -5])});
 
 module.exports = class MeowCommand extends Command {
     constructor(client) {
@@ -18,8 +19,9 @@ module.exports = class MeowCommand extends Command {
                     prompt: 'What transformation would you like to activate?',
                     type: 'string',
                     validate: (text) => {
+                        console.log(validArgs);
                         console.log(validTransforms);
-                        return validTransforms.includes(toString(text));
+                        validArgs.includes(toString(text));
                     },
                 },
             ],
