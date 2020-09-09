@@ -55,7 +55,7 @@ module.exports = class MeowCommand extends Command {
             catch (err) {
                 this.client.utils.loggers.genLogger.error(`Unable to rename some or all channels: ${err}`);
             }
-            let menuList;
+            const menuList = [];
             for (const channel in channelList) {
                 menuList.push(channel.replace('-', '. '));
             }
