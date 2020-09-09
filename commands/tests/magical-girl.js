@@ -21,7 +21,7 @@ module.exports = class MeowCommand extends Command {
                     prompt: 'What transformation would you like to activate?',
                     type: 'string',
                     validate: (transformation) => {
-                        console.log(toString(transformation));
+                        console.log(transformation.toString());
                         console.log(validArgs.includes('nine'));
                         validArgs.includes(transformation);
                     },
