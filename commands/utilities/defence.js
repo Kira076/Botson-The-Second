@@ -18,6 +18,7 @@ module.exports = class MeowCommand extends Command {
 
     // eslint-disable-next-line no-unused-vars
     run(message, { text, option }) {
+        message.delete();
         return message.say('This is entrapment.');
     }
 };
